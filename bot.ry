@@ -1,0 +1,46 @@
+import asyncio
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import CommandStart
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+
+# =====================================================================
+# 1. В КАВЫЧКАХ НИЖЕ ВСТАВЬ ТОКЕН ОТ BOTFATHER (вместо 123456:ABC...)
+BOT_TOKEN = "9217264709:AAEA94682RkzojRK7UdDhZ3PPmuzfhmwrZg" 
+# =====================================================================
+
+# =====================================================================
+# 2. В КАВЫЧКАХ НИЖЕ ВСТАВЬ ССЫЛКУ НА СВОЙ ТГК (вместо https://t.me/...)
+TGK_URL = "https://t.me/Tamagotchi_original"
+# =====================================================================
+
+# Ссылка  игру (уже правильная, ее менять не надо)
+GAME_URL = "https://kseosd.github.io/my-pet-ghttps://t.me/твой_канал_сюданаame/"
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
+@dp.message(CommandStart())
+async def cmd_start(message: types.Message):
+    text = (
+        f"👋 <b>Привет, {message.from_user.first_name}!</b>\n\n"
+        "Добро пожаловать в мир виртуальных питомцев! 🐾\n\n"
+        "Здесь ты можешь завести своего пушистого друга, кормить его, играть с ним "
+        "и наблюдать, как он растет и эволюционирует.\n\n"
+        "🎮 <b>Жми на кнопку ниже, чтобы начать играть!</b>\n\n"
+        "📢 А чтобы не пропустить обновления игры, конкурсы и бонусы — "
+        f"подписывайся на наш канал: <a href='{TGK_URL}'>Наш ТГК</a>"
+    )
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🎮 Играть с питомцем", web_app=WebAppInfo(url=GAME_URL))],
+        [InlineKeyboardButton(text="📢 Наш телеграм-канал", url=TGK_URL)]
+    ])
+    
+    await message.answer(text, reply_markup=keyboard, parse_mode="HTML")
+
+async def main():
+    print("Бот запущен!")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
